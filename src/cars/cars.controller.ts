@@ -26,7 +26,7 @@ export class CarsController {
     //     return this.carsService.checkCarAvailability(id);
     // }
     @UsePipes(new ValidationPipe({ transform: true }))
-    checkCarAvailability(@Body() data: CarAvailabilityDto): Promise<boolean> {
+    checkCarAvailability(@Body() data: CarAvailabilityDto): Promise<object> {
         return this.carsService.checkCarAvailability(data);
     }
 }

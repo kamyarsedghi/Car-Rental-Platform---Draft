@@ -47,7 +47,7 @@ export class CarsService {
     }
 
     async getAllCarData(): Promise<object> {
-        return await this._db.executeQuery('SELECT * FROM cars').then(result => {
+        return await this._db.executeQuery('SELECT * FROM reservations').then(result => {
             return result.rows;
         });
     }
@@ -60,16 +60,17 @@ export class CarsService {
     //     });
     // }
 
-    async checkCarAvailability(data): Promise<boolean> {
+    //FIXME (DONE)- What if there is no car with the given id?
+    async checkCarAvailability(data): Promise<object> {
         const { carId, startDate, endDate } = data;
+        const startDateRestrict = startDate.setDate(startDate.getDate() - 3);
 
-        const query = `SELECT * FROM reservations WHERE car_id = '${carId}' AND start_date <= '${endDate.toISOString()}' AND end_date < '${startDate.toISOString()}'`;
+        // eslint-disable-next-line prettier/prettier
+        const query = `SELECT * FROM reservations WHERE car_id = '${carId}' AND start_date <= '${endDate.toISOString()}' AND end_date < '${new Date(startDateRestrict).toISOString()}'`;
         console.log(query);
 
-        // const query2 = `SELECT * FROM reservations WHERE id = '1'`;
-
         return await this._db.executeQuery(query).then(result => {
-            return result.rows.length > 0;
+            return result.rows.length > 0 ? { carId, availability: true } : { carId: result.rows.car_id ? result.rows.car_id : 'No car found', availability: false };
         });
     }
 
@@ -77,7 +78,6 @@ export class CarsService {
         const query = `CREATE TABLE IF NOT EXISTS "reservations" (
             "id" SERIAL PRIMARY KEY,
             "car_id" INTEGER NOT NULL,
-            "availability" BOOLEAN NOT NULL,
             "basic_tariff" INTEGER NOT NULL,
             "start_date" TIMESTAMP NOT NULL,
             "end_date" TIMESTAMP NOT NULL,

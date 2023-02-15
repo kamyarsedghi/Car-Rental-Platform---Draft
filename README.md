@@ -1,3 +1,22 @@
+# THIS IS A DRAFT
+However, endpoints are as follows:
+
+## GET /cars
+Listing all the data in the database
+
+## GET /cars/price/:days
+Calculating the price of the rent for the given number of days
+
+## POST /cars
+Checking availability of the rental of a specific car for a given period of time, with the 3 days restriction of the end date of the previous booking and the new start date.
+{
+    "carId": 1,
+    "startDate": "2021-01-01",
+    "endDate": "2021-01-10"
+}
+
+
+
 <p align="center">
   <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="200" alt="Nest Logo" /></a>
 </p>
