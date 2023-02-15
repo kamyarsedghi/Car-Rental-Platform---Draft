@@ -9,12 +9,13 @@ Calculating the price of the rent for the given number of days
 
 ## POST /cars
 Checking availability of the rental of a specific car for a given period of time, with the 3 days restriction of the end date of the previous booking and the new start date.
+```
 {
     "carId": 1,
     "startDate": "2021-01-01",
     "endDate": "2021-01-10"
 }
-
+```
 
 
 <p align="center">
